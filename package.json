@@ -6,16 +6,23 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "10.17.60",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
     "alsatian": "2.4.0",
+    "eslint": "^8.57.1",
+    "prettier": "3.3.3",
     "ts-loader": "5.4.5",
     "ts-node": "7.0.1",
-    "typescript": "3.9.10",
+    "typescript": "^3.9.10",
+    "typescript-eslint": "^8.8.1",
     "webpack": "4.47.0",
     "webpack-cli": "3.3.12"
   },
   "scripts": {
     "build:dev": "rm -rf ./dist && webpack --config ./config/webpack.config.js --mode development",
     "build:prod": "rm -rf ./dist && webpack --config ./config/webpack.config.js --mode production",
-    "test": "ts-node --project ./tsconfig.json ./config/run-test"
+    "test": "ts-node --project ./tsconfig.json ./config/run-test",
+    "lint": "eslint src --ext .ts --fix",
+    "format": "prettier --write src"
   }
 }

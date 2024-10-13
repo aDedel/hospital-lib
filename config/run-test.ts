@@ -1,5 +1,5 @@
-import {TapBark} from 'tap-bark';
-import {TestRunner, TestSet} from 'alsatian';
+import { TapBark } from 'tap-bark';
+import { TestRunner, TestSet } from 'alsatian';
 
 (async () => {
   const testSet = TestSet.create();
