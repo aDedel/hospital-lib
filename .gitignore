@@ -1,4 +1,25 @@
+# Dependencies
 node_modules
+dist
+
+# Secrets
+.env
+.env.local
+.env.production.local
+.env.development.local
+
+# Build tools specific
+npm-debug.log
+yarn-error.log
+
+# Editors specific
+.fleet
 .idea
-yarn.lock
-*.log
+.vscode
+
+# Platform specific
+.DS_Store
+
+# Tests
+/coverage
+/.nyc_output
