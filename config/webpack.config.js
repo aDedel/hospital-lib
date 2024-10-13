@@ -1,19 +1,20 @@
 module.exports = {
-    entry: './src/index.ts',
+    entry: "./src/index.ts",
     output: {
-        filename: 'index.js',
-        library: 'hospitalLib',
-        libraryTarget: 'umd',
-        umdNamedDefine: true
+        filename: "index.js",
+        library: "hospitalLib",
+        libraryTarget: "umd",
+        umdNamedDefine: true,
     },
     resolve: {
-        extensions: ['.ts']
+        extensions: [".ts"],
     },
     module: {
         rules: [
             {
-                test: /\.ts$/, loader: 'ts-loader'
-            }
-        ]
-    }
+                test: /\.ts$/,
+                loader: "ts-loader",
+            },
+        ],
+    },
 };

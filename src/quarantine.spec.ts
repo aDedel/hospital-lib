@@ -1,9 +1,10 @@
 import { Expect, Setup, Test, TestFixture } from "alsatian";
 import { Quarantine } from "./quarantine";
+import { DrugsEnum } from "./patientsRegister";
 
 @TestFixture()
 export class QuarantineTest {
-    private quarantine: Quarantine;
+    private declare quarantine: Quarantine;
 
     @Setup
     public setup() {
@@ -33,7 +34,7 @@ export class QuarantineTest {
 
     @Test()
     public beforeTreatment(): void {
-        // diabetics die without insulin
+        // before treatment, same as initial state
         Expect(this.quarantine.report()).toEqual({
             F: 1,
             H: 2,
@@ -58,7 +59,7 @@ export class QuarantineTest {
 
     @Test()
     public aspirin(): void {
-        this.quarantine.setDrugs(["As"]);
+        this.quarantine.setDrugs([DrugsEnum.Aspirin]);
         this.quarantine.wait40Days();
         // aspirin cure Fever
         Expect(this.quarantine.report()).toEqual({
@@ -72,7 +73,7 @@ export class QuarantineTest {
 
     @Test()
     public antibiotic(): void {
-        this.quarantine.setDrugs(["An"]);
+        this.quarantine.setDrugs([DrugsEnum.Antibiotic]);
         this.quarantine.wait40Days();
         // antibiotic cure Tuberculosis
         // but healthy people catch Fever if mixed with insulin.
@@ -87,7 +88,7 @@ export class QuarantineTest {
 
     @Test()
     public insulin(): void {
-        this.quarantine.setDrugs(["I"]);
+        this.quarantine.setDrugs([DrugsEnum.Insulin]);
         this.quarantine.wait40Days();
         // insulin prevent diabetic subject from dying, does not cure Diabetes,
         Expect(this.quarantine.report()).toEqual({
@@ -101,7 +102,7 @@ export class QuarantineTest {
 
     @Test()
     public antibioticPlusInsulin(): void {
-        this.quarantine.setDrugs(["An", "I"]);
+        this.quarantine.setDrugs([DrugsEnum.Antibiotic, DrugsEnum.Insulin]);
         this.quarantine.wait40Days();
         // if insulin is mixed with antibiotic, healthy people catch Fever
         Expect(this.quarantine.report()).toEqual({
@@ -115,7 +116,7 @@ export class QuarantineTest {
 
     @Test()
     public paracetamol(): void {
-        this.quarantine.setDrugs(["P"]);
+        this.quarantine.setDrugs([DrugsEnum.Paracetamol]);
         this.quarantine.wait40Days();
         // paracetamol heals fever
         Expect(this.quarantine.report()).toEqual({
@@ -129,9 +130,101 @@ export class QuarantineTest {
 
     @Test()
     public paracetamolAndAspirin(): void {
-        this.quarantine.setDrugs(["P", "As"]);
+        this.quarantine.setDrugs([DrugsEnum.Paracetamol, DrugsEnum.Aspirin]);
         this.quarantine.wait40Days();
         // paracetamol kills subject if mixed with aspirin
+        Expect(this.quarantine.report()).toEqual({
+            F: 0,
+            H: 0,
+            D: 0,
+            T: 0,
+            X: 7,
+        });
+    }
+
+    @Test()
+    public paracetamolAndDoubleAspirin(): void {
+        this.quarantine.setDrugs([
+            DrugsEnum.Paracetamol,
+            DrugsEnum.Aspirin,
+            DrugsEnum.Aspirin,
+        ]);
+        this.quarantine.wait40Days();
+        // paracetamol kills subject if mixed with aspirin
+        Expect(this.quarantine.report()).toEqual({
+            F: 0,
+            H: 0,
+            D: 0,
+            T: 0,
+            X: 7,
+        });
+    }
+
+    @Test()
+    public paracetamolAndAspirinAndAntibiotic(): void {
+        this.quarantine.setDrugs([
+            DrugsEnum.Paracetamol,
+            DrugsEnum.Insulin,
+            DrugsEnum.Antibiotic,
+            DrugsEnum.Aspirin,
+        ]);
+        this.quarantine.wait40Days();
+        // paracetamol kills subject if mixed with aspirin
+        Expect(this.quarantine.report()).toEqual({
+            F: 0,
+            H: 0,
+            D: 0,
+            T: 0,
+            X: 7,
+        });
+    }
+
+    @Test()
+    public antibioticPlusInsulinAndAspirin(): void {
+        this.quarantine.setDrugs([
+            DrugsEnum.Antibiotic,
+            DrugsEnum.Insulin,
+            DrugsEnum.Aspirin,
+        ]);
+        this.quarantine.wait40Days();
+        // if insulin is mixed with antibiotic, healthy people catch Fever
+        Expect(this.quarantine.report()).toEqual({
+            F: 2,
+            H: 2,
+            D: 3,
+            T: 0,
+            X: 0,
+        });
+    }
+
+    @Test()
+    public antibioticPlusInsulinAndParacetamol(): void {
+        this.quarantine.setDrugs([
+            DrugsEnum.Antibiotic,
+            DrugsEnum.Paracetamol,
+            DrugsEnum.Insulin,
+        ]);
+        this.quarantine.wait40Days();
+        // if insulin is mixed with antibiotic, healthy people catch Fever
+        Expect(this.quarantine.report()).toEqual({
+            F: 2,
+            H: 2,
+            D: 3,
+            T: 0,
+            X: 0,
+        });
+    }
+
+    @Test()
+    public mixAllDrugs(): void {
+        this.quarantine.setDrugs([
+            DrugsEnum.Antibiotic,
+            DrugsEnum.Aspirin,
+            DrugsEnum.Insulin,
+            DrugsEnum.Paracetamol,
+        ]);
+        this.quarantine.wait40Days();
+        // if insulin is mixed with antibiotic, healthy people catch Fever
         Expect(this.quarantine.report()).toEqual({
             F: 0,
             H: 0,
