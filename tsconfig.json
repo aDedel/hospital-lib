@@ -1,15 +1,15 @@
 {
-  "compilerOptions": {
-    "strict": true,
-    "outDir": "./dist/",
-    "target": "ES2015",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "declaration": true,
-    "experimentalDecorators": true
-  },
-  "include": ["src"],
-  "exclude": ["src/*.spec.ts"]
+    "compilerOptions": {
+        "strict": true,
+        "outDir": "./dist/",
+        "target": "ES2015",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "declaration": true,
+        "experimentalDecorators": true
+    },
+    "include": ["src"],
+    "exclude": ["src/*.spec.ts"]
 }
