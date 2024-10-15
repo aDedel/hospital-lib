@@ -19,10 +19,13 @@
     "webpack-cli": "5.1.4"
   },
   "scripts": {
-    "build:dev": "rm -rf ./dist && webpack --config ./config/webpack.config.js --mode development",
-    "build:prod": "rm -rf ./dist && webpack --config ./config/webpack.config.js --mode production",
+    "build:dev": "rm -rf ./dist && tsc --module ESNext",
+    "build:prod": "rm -rf ./dist && tsc --module ESNext",
     "test": "ts-node --project ./tsconfig.json ./config/run-test",
     "lint": "eslint . --fix",
     "format": "prettier --write ."
+  },
+  "exports": {
+    ".": "./dist/index.js"
   }
 }
